@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <input id='qiu' type="checkbox" />邱老大？
+    <form action="">
+      
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    <script>
+      function generate_random_number(bit){
+        var num = ''
+        for(var i = 0; i < bit; i++){
+          num += Math.floor(Math.random() * 10)
+        }
+        return num
+      }
+      $(function () {
+        var address = '<?=$this->config->chat->host.':'.$this->config->chat->port?>'
+        console.log(address)
+          var socket = io.connect(address);
+          $('form').submit(function(){
+            let uid = document.getElementById('qiu').checked? 6140: 6135
+            var message = {
+              body:$('#m').val(),
+              type:0,
+              mid:generate_random_number(14),
+              uid:uid,  //6140:JetTang 6135:QiuJi
+            }
+            socket.emit('private_chat', message, function(res){
+              console.log(JSON.stringify(res))
+            });
+            $('#m').val('');
+            return false;
+          });
+          socket.on('warning', function(message){
+            console.log(JSON.stringify(message))
+          });
+          socket.on('private_chat', function(message){
+              $('#messages').append($('<li>').html(message));
+          });
+        });
+    </script>
+  </body>
+</html>

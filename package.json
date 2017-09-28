@@ -1,0 +1,15 @@
+{
+  "scripts": {
+    "start": "node app.js 17100",
+    "test": "node app.js 17110"
+  },
+  "dependencies": {
+    "dateformat": "^3.0.2",
+    "express": "^4.15.4",
+    "pg": "^7.3.0",
+    "php-unserialize": "0.0.1",
+    "redis": "^2.8.0",
+    "sequelize": "^4.10.3",
+    "socket.io": "^2.0.3"
+  }
+}
